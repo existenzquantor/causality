@@ -1,4 +1,4 @@
-:- [causality].
+:- ["../causality"].
 
 action(a).
 action(b).
