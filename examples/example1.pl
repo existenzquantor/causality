@@ -1,4 +1,4 @@
-:- ["../causality"].
+:- ["../core/causality"].
 
 action(a).
 action(b).
