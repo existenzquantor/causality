@@ -5,9 +5,8 @@ finally(Program, Fact) :- init(S0),
                             satisfied([Fact], S).
 
 /* Compute programs with empty actions */
-contrastProgram1(A1 : A2, CP) :- contrastProgram1(A1, CP1), 
-                                    contrastProgram1(A2, CP2), 
-                                    CP = CP1 : CP2.
+contrastProgram1(A1 : A2, CP1 : CP2) :- contrastProgram1(A1, CP1), 
+                                    contrastProgram1(A2, CP2).
 contrastProgram1(A, e) :- action(A).
 contrastProgram1(A, A) :- action(A).
 
