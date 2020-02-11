@@ -5,10 +5,9 @@ action(b).
 action(c).
 action(e).
 
-eff(a, [], p).
-eff(b, [], q).
-eff(c, [p, q], t).
+eff(a, [not(p)], [p]).
+eff(a, [p], [not(p)]).
 
-init([not(p), not(q), not(t)]).
+init([not(p)]).
 
-start :- Program = a : b : c, butForCause(Program, t, Witness) -> write("YES "), write(Witness);write("NO").
+start :- Program = a : a, butForCause(Program, not(p), Witness) -> write("YES "), write(Witness);write("NO").
