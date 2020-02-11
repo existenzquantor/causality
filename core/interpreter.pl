@@ -13,7 +13,7 @@ apply(A, S, Snext) :- findall(E, (eff(A, C, E), satisfied(C, S)), L1),
                         union(S2, L3, Snext).
 
 negate(F, Fneg) :- removeDoubleNegAtom(not(F), Fneg).
-removeDoubleNegAtom(not(not(A)), A) :- !.
+removeDoubleNegAtom(not(not(A)), Anew) :- removeDoubleNegAtom(A, Anew), !.
 removeDoubleNegAtom(A, A).
 
 negate_all(L, Lnew) :- negate_all(L, [], Lnew).
@@ -26,3 +26,6 @@ removeDoubleNeg([not(not(X)) | R], L, Result) :-
     removeDoubleNeg(R, [X | L], Result), !.
 removeDoubleNeg([X | R], L, Result) :-
     removeDoubleNeg(R, [X | L], Result), !.
+
+
+start :- removeDoubleNegAtom(not(not(not(not(a)))), B), write(B).
