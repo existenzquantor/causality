@@ -4,26 +4,26 @@ do(A, S, Snext) :- action(A), apply(A, S, Snext).
 
 satisfied(P, S) :- subset(P, S).
 
-apply(A, S, Snext) :- findall(E, (eff(A, C, E), satisfied(C, S)), L1),
+apply(A, S, Snext) :- findall(E, (effect(A, C, E), satisfied(C, S)), L1),
                         flatten(L1, L2),
                         list_to_set(L2, L3),
                         negate_all(L3, L4),
-                        removeDoubleNeg(L4, L5),
+                        remove_double_neg(L4, L5),
                         subtract(S, L5, S2),
                         union(S2, L3, Snext).
 
-negate(F, Fneg) :- removeDoubleNegAtom(not(F), Fneg).
-removeDoubleNegAtom(not(not(A)), Anew) :- removeDoubleNegAtom(A, Anew), !.
-removeDoubleNegAtom(A, A).
+negate(F, Fneg) :- remove_double_negAtom(not(F), Fneg).
+remove_double_negAtom(not(not(A)), Anew) :- remove_double_negAtom(A, Anew), !.
+remove_double_negAtom(A, A).
 
 negate_all(L, Lnew) :- negate_all(L, [], Lnew).
 negate_all([], L, L).
 negate_all([X | R], L, Erg) :- negate_all(R, [not(X) | L], Erg).
 
-removeDoubleNeg(L1, L2) :- removeDoubleNeg(L1, [], L2).
-removeDoubleNeg([], L, L).
-removeDoubleNeg([not(not(X)) | R], L, Result) :-
-    removeDoubleNegAtom(X, Xnew),
-    removeDoubleNeg(R, [Xnew | L], Result), !.
-removeDoubleNeg([X | R], L, Result) :-
-    removeDoubleNeg(R, [X | L], Result), !.
+remove_double_neg(L1, L2) :- remove_double_neg(L1, [], L2).
+remove_double_neg([], L, L).
+remove_double_neg([not(not(X)) | R], L, Result) :-
+    remove_double_negAtom(X, Xnew),
+    remove_double_neg(R, [Xnew | L], Result), !.
+remove_double_neg([X | R], L, Result) :-
+    remove_double_neg(R, [X | L], Result), !.

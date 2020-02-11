@@ -3,8 +3,8 @@
 action(a).
 action(e). % Empty Action
 
-eff(a, [not(p)], [p]).
-eff(a, [p], [not(p)]).
+effect(a, [not(p)], [p]).
+effect(a, [p], [not(p)]).
 
 init([not(p)]).
 
@@ -13,5 +13,5 @@ start :- test1,
         test2,
         write("\n").
 
-test1 :- Program = a : a, butForCause(Program, not(p), Witness) -> write("YES "), write(Witness);write("NO").
-test2 :- Program = a, butForCause(Program, not(p), Witness) -> write("YES "), write(Witness);write("NO").
+test1 :- Program = a : a, but_for_cause(Program, not(p), Witness) -> write("YES "), write(Witness);write("NO").
+test2 :- Program = a, but_for_cause(Program, not(p), Witness) -> write("YES "), write(Witness);write("NO").
