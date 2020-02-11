@@ -1,9 +1,17 @@
 :- [interpreter].
+:- [programs].
 
 /* Check if Fact holds in Program's final state */
 finally(Program, Fact) :-   init(S0), 
                             do(Program, S0, S), 
                             satisfied([Fact], S).
+
+holds_since(Program, Fact, 0) :- finally(Program, Fact).
+holds_since(Program, Fact, N) :-    N > 0,
+                                    program_length(Program, Nprog),
+                                    Nremain is Nprog - N,
+                                    prefix_n_times(Program, Nremain, Pnew),
+                                    finally(Pnew, Fact).
 
 /* Compute programs with empty actions */
 contrast_program1(A1 : A2, CP1 : CP2) :-    contrast_program1(A1, CP1), 
