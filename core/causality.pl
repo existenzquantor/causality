@@ -13,7 +13,7 @@ holds_since(Program, Fact, N) :-    N > 0,
                                     prefix_n_times(Program, Nremain, Pnew),
                                     finally(Pnew, Fact),
                                     Nnew is N - 1,
-                                    holds_since(Pnew, Fact, Nnew).
+                                    holds_since(Program, Fact, Nnew).
 
 /* Compute programs with empty actions */
 contrast_program1(A1 : A2, CP1 : CP2) :-    contrast_program1(A1, CP1), 
