@@ -30,8 +30,27 @@ max_holds_since(Program, Fact, MaxCur, Max) :-
 contrast_program1(A1 : A2, CP1 : CP2) :- 
     contrast_program1(A1, CP1), 
     contrast_program1(A2, CP2).
-contrast_program1(A, empty) :- atom(A).
 contrast_program1(A, A) :- atom(A).
+contrast_program1(A, empty) :- atom(A).
+
+/* Compute programs with contrast actions */
+contrast_program2(A1 : A2, CP1 : CP2) :- 
+    contrast_program2(A1, CP1), 
+    contrast_program2(A2, CP2).
+contrast_program2(A, A) :- atom(A).
+contrast_program2(A, C) :- atom(A), 
+                           contrast(A, CL), 
+                           member(C, CL).
+
+/* Compute programs with empty or contrast actions */
+contrast_program3(A1 : A2, CP1 : CP2) :- 
+    contrast_program3(A1, CP1), 
+    contrast_program3(A2, CP2).
+contrast_program3(A, A) :- atom(A).
+contrast_program3(A, empty) :- atom(A).
+contrast_program3(A, C) :- atom(A), 
+                           contrast(A, CL), 
+                           member(C, CL).
 
 /* But-For Cause */
 but_for_cause(Program, Fact, CP) :- 
@@ -39,6 +58,15 @@ but_for_cause(Program, Fact, CP) :-
     cause_contrast(Program, CP, Fact).
 
 /* Contrastive Cause */
+cause_empty_contrast(Program, Fact, CP) :-
+    contrast_program1(Program, CP),
+    cause_contrast(Program, CP, Fact).
+cause_nonempty_contrast(Program, Fact, CP) :-
+    contrast_program2(Program, CP),
+    cause_contrast(Program, CP, Fact).
+cause_empty_nonempty_contrast(Program, Fact, CP) :-
+    contrast_program3(Program, CP),
+    cause_contrast(Program, CP, Fact).
 cause_contrast(Program, ContrastProgram, Fact) :-
     negate(Fact, ContrastFact), 
     cause_contrast(Program, ContrastProgram, Fact, ContrastFact).
@@ -48,6 +76,15 @@ cause_contrast(Program, ContrastProgram, Fact, ContrastFact) :-
     finally(ContrastProgram, ContrastFact).
 
 /* Cause due to Temporal Shift or Non-Occurrence in Final State */
+cause_empty_temporal(Program, Fact, CP) :-
+    contrast_program1(Program, CP),
+    cause_temporal(Program, CP, Fact).
+cause_nonempty_temporal(Program, Fact, CP) :-
+    contrast_program2(Program, CP),
+    cause_temporal(Program, CP, Fact).
+cause_empty_nonempty_temporal(Program, Fact, CP) :-
+    contrast_program3(Program, CP),
+    cause_temporal(Program, CP, Fact).
 cause_temporal(Program, ContrastProgram, Fact) :-
     cause_contrast(Program, ContrastProgram, Fact).
 cause_temporal(Program, ContrastProgram, Fact) :-
