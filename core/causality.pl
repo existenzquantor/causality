@@ -11,13 +11,14 @@ holds_since(Program, Fact, 0) :-
     finally(Program, Fact).
 holds_since(Program, Fact, N) :-
     N > 0,
-    program_length(Program, Nprog),
-    Nremain is Nprog - N,
-    prefix_n_times(Program, Nremain, Pnew),
+    %program_length(Program, Nprog),
+    %Nremain is Nprog - N,
+    prefix_n_times(Program, N, Pnew),
     finally(Pnew, Fact),
     Nnew is N - 1,
     holds_since(Program, Fact, Nnew).
 maximum_holds_since(Program, Fact, Max) :-
+    finally(Program, Fact),
     program_length(Program, Nprog),
     max_holds_since(Program, Fact, Nprog, Max).
 max_holds_since(Program, Fact, MaxCur, MaxCur) :- 
@@ -39,6 +40,7 @@ but_for_cause(Program, Fact, P) :-
     member(P, L), 
     cause_contrast(Program, P, Fact).
 
+/* Contrastive Cause */
 cause_contrast(Program, ContrastProgram, Fact) :-
     negate(Fact, ContrastFact), 
     cause_contrast(Program, ContrastProgram, Fact, ContrastFact).
@@ -46,3 +48,9 @@ cause_contrast(Program, ContrastProgram, Fact, ContrastFact) :-
     finally(Program, Fact),
     \+ finally(ContrastProgram, Fact),
     finally(ContrastProgram, ContrastFact).
+
+/* Cause due to Temporal Shift */
+cause_temporal(Program, ContrastProgram, Fact) :- 
+    maximum_holds_since(Program, Fact, ProgMax), 
+    maximum_holds_since(ContrastProgram, Fact, CProgMax),
+    CProgMax < ProgMax. % Fact stabilizes later
