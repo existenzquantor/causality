@@ -35,10 +35,9 @@ contrast_program1(A, e) :- action(A).
 contrast_program1(A, A) :- action(A).
 
 /* But-For Cause */
-but_for_cause(Program, Fact, P) :- 
-    findall(CP, contrast_program1(Program, CP), L), 
-    member(P, L), 
-    cause_contrast(Program, P, Fact).
+but_for_cause(Program, Fact, CP) :- 
+    contrast_program1(Program, CP), 
+    cause_contrast(Program, CP, Fact).
 
 /* Contrastive Cause */
 cause_contrast(Program, ContrastProgram, Fact) :-
