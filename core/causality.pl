@@ -2,32 +2,47 @@
 :- [programs].
 
 /* Check if Fact holds in Program's final state */
-finally(Program, Fact) :-   init(S0), 
-                            do(Program, S0, S), 
-                            satisfied([Fact], S).
+finally(Program, Fact) :-
+    init(S0), 
+    do(Program, S0, S), 
+    satisfied([Fact], S).
 
-holds_since(Program, Fact, 0) :- finally(Program, Fact).
-holds_since(Program, Fact, N) :-    N > 0,
-                                    program_length(Program, Nprog),
-                                    Nremain is Nprog - N,
-                                    prefix_n_times(Program, Nremain, Pnew),
-                                    finally(Pnew, Fact),
-                                    Nnew is N - 1,
-                                    holds_since(Program, Fact, Nnew).
+holds_since(Program, Fact, 0) :- 
+    finally(Program, Fact).
+holds_since(Program, Fact, N) :-
+    N > 0,
+    program_length(Program, Nprog),
+    Nremain is Nprog - N,
+    prefix_n_times(Program, Nremain, Pnew),
+    finally(Pnew, Fact),
+    Nnew is N - 1,
+    holds_since(Program, Fact, Nnew).
+maximum_holds_since(Program, Fact, Max) :-
+    program_length(Program, Nprog),
+    max_holds_since(Program, Fact, Nprog, Max).
+max_holds_since(Program, Fact, MaxCur, MaxCur) :- 
+    holds_since(Program, Fact, MaxCur), !.
+max_holds_since(Program, Fact, MaxCur, Max) :-
+    MaxCurnew is MaxCur - 1, 
+    max_holds_since(Program, Fact, MaxCurnew, Max). 
 
 /* Compute programs with empty actions */
-contrast_program1(A1 : A2, CP1 : CP2) :-    contrast_program1(A1, CP1), 
-                                            contrast_program1(A2, CP2).
+contrast_program1(A1 : A2, CP1 : CP2) :- 
+    contrast_program1(A1, CP1), 
+    contrast_program1(A2, CP2).
 contrast_program1(A, e) :- action(A).
 contrast_program1(A, A) :- action(A).
 
 /* But-For Cause */
-but_for_cause(Program, Fact, P) :-      findall(CP, contrast_program1(Program, CP), L), 
-                                        member(P, L), 
-                                        cause_contrast(Program, P, Fact).
+but_for_cause(Program, Fact, P) :- 
+    findall(CP, contrast_program1(Program, CP), L), 
+    member(P, L), 
+    cause_contrast(Program, P, Fact).
 
-cause_contrast(Program, ContrastProgram, Fact) :-   negate(Fact, ContrastFact), 
-                                                    cause_contrast(Program, ContrastProgram, Fact, ContrastFact).
-cause_contrast(Program, ContrastProgram, Fact, ContrastFact) :-    finally(Program, Fact),
-                                                                    \+ finally(ContrastProgram, Fact),
-                                                                    finally(ContrastProgram, ContrastFact).
+cause_contrast(Program, ContrastProgram, Fact) :-
+    negate(Fact, ContrastFact), 
+    cause_contrast(Program, ContrastProgram, Fact, ContrastFact).
+cause_contrast(Program, ContrastProgram, Fact, ContrastFact) :-    
+    finally(Program, Fact),
+    \+ finally(ContrastProgram, Fact),
+    finally(ContrastProgram, ContrastFact).
