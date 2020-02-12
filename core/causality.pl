@@ -12,8 +12,6 @@ holds_since(Program, Fact, 0) :-
     finally(Program, Fact).
 holds_since(Program, Fact, N) :-
     N > 0,
-    %program_length(Program, Nprog),
-    %Nremain is Nprog - N,
     prefix_n_times(Program, N, Pnew),
     finally(Pnew, Fact),
     Nnew is N - 1,
