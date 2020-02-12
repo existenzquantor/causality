@@ -1,8 +1,5 @@
 :- ["../core/causality"].
 
-action(a).
-action(e). % Empty Action
-
 effect(a, [not(p)], [p]).
 effect(a, [p], [not(p)]).
 

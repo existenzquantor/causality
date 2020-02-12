@@ -6,7 +6,7 @@ do(A1 : A2, S, Snext) :-
     do(A1, S, S2), 
     do(A2, S2, Snext).
 do(A, S, Snext) :- 
-    action(A), 
+    atom(A), 
     apply(A, S, Snext).
 
 /* Apply Action to State */

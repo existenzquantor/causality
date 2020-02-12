@@ -1,11 +1,5 @@
 :- ["../core/causality"].
 
-action(steal_cake).
-action(buy_cake).
-action(steal_banana).
-action(eat).
-action(e). % Empty Action
-
 effect(steal_cake, [], [have_cake]).
 effect(buy_cake, [], [have_cake]).
 effect(steal_banana, [], [have_banana]).

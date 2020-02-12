@@ -30,8 +30,8 @@ max_holds_since(Program, Fact, MaxCur, Max) :-
 contrast_program1(A1 : A2, CP1 : CP2) :- 
     contrast_program1(A1, CP1), 
     contrast_program1(A2, CP2).
-contrast_program1(A, e) :- action(A).
-contrast_program1(A, A) :- action(A).
+contrast_program1(A, empty) :- atom(A).
+contrast_program1(A, A) :- atom(A).
 
 /* But-For Cause */
 but_for_cause(Program, Fact, CP) :- 

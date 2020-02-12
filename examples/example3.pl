@@ -1,9 +1,5 @@
 :- ["../core/causality"].
 
-action(e). % empty action
-action(a).
-action(b).
-
 effect(a, [not(p)], [p]).
 effect(b, [not(p)], [p]).
 
@@ -14,5 +10,5 @@ start :-
     writeln(""),
     test2.
 
-test1 :- P = a : b, C = e : b, F = p, cause_contrast(P, C, F) -> write("Yes");write("No").
-test2 :- P = a : b, C = e : b, F = p, cause_temporal(P, C, F) -> write("Yes");write("No").
+test1 :- P = a : b, C = empty : b, F = p, cause_contrast(P, C, F) -> write("Yes");write("No").
+test2 :- P = a : b, C = eempty : b, F = p, cause_temporal(P, C, F) -> write("Yes");write("No").
