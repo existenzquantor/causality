@@ -7,6 +7,7 @@ finally(Program, Fact) :-
     do(Program, S0, S), 
     satisfied([Fact], S).
 
+/* Helper Predicates for Temporal Reasoning */
 holds_since(Program, Fact, 0) :- 
     finally(Program, Fact).
 holds_since(Program, Fact, N) :-
@@ -48,8 +49,10 @@ cause_contrast(Program, ContrastProgram, Fact, ContrastFact) :-
     \+ finally(ContrastProgram, Fact),
     finally(ContrastProgram, ContrastFact).
 
-/* Cause due to Temporal Shift */
-cause_temporal(Program, ContrastProgram, Fact) :- 
+/* Cause due to Temporal Shift or Non-Occurrence in Final State */
+cause_temporal(Program, ContrastProgram, Fact) :-
+    cause_contrast(Program, ContrastProgram, Fact).
+cause_temporal(Program, ContrastProgram, Fact) :-
     maximum_holds_since(Program, Fact, ProgMax), 
     maximum_holds_since(ContrastProgram, Fact, CProgMax),
     CProgMax < ProgMax. % Fact stabilizes later
