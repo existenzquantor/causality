@@ -6,6 +6,10 @@ finally(Program, Fact) :-
     init(S0), 
     do(Program, S0, S), 
     satisfied([Fact], S).
+/* Check if Fact is a Goal */
+is_goal(Fact) :-
+    goal(G),
+    member(Fact, G).
 
 /* Helper Predicates for Temporal Reasoning */
 holds_since(Program, Fact, 0) :- 
@@ -33,6 +37,15 @@ contrast_program1(A1 : A2, CP1 : CP2) :-
 contrast_program1(A, A) :- atom(A).
 contrast_program1(A, empty) :- atom(A).
 
+/* Compute programs with action-specific substitution by empty actions */
+contrast_program1b(A1 : A2, CP1 : CP2, Act) :- 
+    contrast_program1b(A1, CP1, Act), 
+    contrast_program1b(A2, CP2, Act).
+contrast_program1b(A, A, _) :- atom(A).
+contrast_program1b(A, empty, Act) :- 
+    atom(A), 
+    A == Act.
+
 /* Compute programs with contrast actions */
 contrast_program2(A1 : A2, CP1 : CP2) :- 
     contrast_program2(A1, CP1), 
@@ -53,6 +66,9 @@ contrast_program3(A, C) :- atom(A),
                            member(C, CL).
 
 /* But-For Cause */
+but_for_cause(Program, Fact, CP, Action) :-
+    contrast_program1b(Program, CP, Action),
+    cause_contrast(Program, CP, Fact).
 but_for_cause(Program, Fact, CP) :- 
     contrast_program1(Program, CP), 
     cause_contrast(Program, CP, Fact).
@@ -91,3 +107,9 @@ cause_temporal(Program, ContrastProgram, Fact) :-
     maximum_holds_since(Program, Fact, ProgMax), 
     maximum_holds_since(ContrastProgram, Fact, CProgMax),
     CProgMax < ProgMax. % Fact stabilizes later
+
+
+/* From Causes to Reasons */
+reason_but_for_cause(Fact, Action, Program, CP) :-
+    is_goal(Fact),
+    but_for_cause(Program, Fact, CP, Action).
