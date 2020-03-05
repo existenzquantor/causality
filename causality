@@ -4,7 +4,6 @@
 
 % Example call: ./causality "./examples/ex_butfor.pl" "a:a" "a" "not(p)"
 main(Argv) :-
-        writeln(Argv),
         nth0(0, Argv, Domain),
         nth0(1, Argv, ProgramAtom),
         term_to_atom(Program, ProgramAtom),
@@ -12,6 +11,13 @@ main(Argv) :-
         term_to_atom(Action, ActionAtom),
         nth0(3, Argv, FactAtom),
         term_to_atom(Fact, FactAtom),
+        nth0(4, Argv, Definition),
         consult("./core/causality.pl"),
         consult(Domain), 
-        but_for_cause(Program, Action, Fact, _) -> writeln("TRUE");writeln("FALSE").
+        (Definition == but_for -> 
+                (but_for_cause(Program, Action, Fact, _) -> writeln("TRUE");writeln("FALSE"))
+        ;
+        (Definition == temporal_empty -> 
+                (cause_empty_temporal(Program, Action, Fact, _) -> writeln("TRUE");writeln("FALSE"))
+        )
+        ).
