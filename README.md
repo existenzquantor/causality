@@ -8,4 +8,7 @@ Then clone or download this github repository. Make sure the file _causality_ is
 
 ## Using the program
 
-todo
+Example call: 
+./causality "./examples/ex_butfor.pl" "a:a" "a" "not(p)" "but_for"
+
+More explanation soon to come.
