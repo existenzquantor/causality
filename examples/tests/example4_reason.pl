@@ -1,4 +1,4 @@
-:- ["../core/causality"].
+:- ["../../core/causality"].
 
 effect(a, [not(p)], [p]).
 effect(b, [p], [q]).

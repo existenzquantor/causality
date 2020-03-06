@@ -1,4 +1,4 @@
-:- ["../core/causality"].
+:- ["../../core/causality"].
 
 effect(steal_cake, [], [have_cake]).
 effect(buy_cake, [], [have_cake]).
