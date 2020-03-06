@@ -23,14 +23,14 @@ effect(throwbilly, [not(shattered)], [shattered]).
 This domain description is written in the file *./examples/suzybilly.pl*. The causal reasoner can be queried to answer what  caused *shattered*, or why *throwsuzy* was performed to begin with.
 
 First, ask what caused the shattering under the but-for definition of causality:
-<code>
+```
 ./causality ./examples/suzybilly1.pl throwsuzy:throwbilly shattered but_for
-</code>
+```
 
 The answer is the empty set: Leaving out *throwsuzy* would still result in *shattered* due to *throwbilly*; and also leaving out *throwbilly* would not prevent *shattered*. Thus, none of the actions is a but-for cause. However, if Suzy hadn't thrown, then *shattered* would have happened later. Therefore, *throwsuzy* is a cause according to the temporal-fragility definition of causality called *temporal_empty* (why it is called *empty* will be explained later):
-<code>
+```
   ./causality ./examples/suzybilly1.pl throwsuzy:throwbilly shattered temporal_empty
-</code>
+```
 
 The output is <code>[(throwsuzy,empty:throwbilly)]</code>. This tells us that *throwsuzy* is a cause. And it gives additional information: This judgment is true, because if *throwsuzy* were substituted by the empty action, the plan *empty:throwbilly* would be performed instead, and then *shattered* would become true later (viz., due to the later action *throwbilly*).
 
