@@ -20,4 +20,8 @@ main(Argv) :-
         (Definition == reason_but_for ->
                 (findall((Reason, Witness), reason_but_for_cause(Reason, Query, Program, Witness), Reasons) -> writeln(Reasons);writeln("FALSE"))
         )
+        ;
+        (Definition == reason_temporal_empty ->
+                (findall((Reason, Witness), reason_empty_temporal(Reason, Query, Program, Witness), Reasons) -> writeln(Reasons);writeln("FALSE"))
+        )
         ).
