@@ -8,6 +8,11 @@ Then clone or download this github repository. Make sure the file _causality_ is
 
 ## Using the program
 
+To query if, given some domain description *D*, action *A* in program *P* is a cause of *F* according to causality definition *C*, you call:
+<code>
+./causality "*D*" "*P*" "*A*" "*F*" "*C*"
+</code>
+
 Example call: 
 <code>
 ./causality "./examples/ex_butfor.pl" "a:a" "a" "not(p)" "but_for"
