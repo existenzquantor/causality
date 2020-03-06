@@ -35,7 +35,7 @@ First, ask what caused the shattering under the but-for definition of causality:
 
 The answer is the empty set: Leaving out *throwsuzy* would still result in *shattered* due to *throwbilly*; and also leaving out *throwbilly* would not prevent *shattered*. Thus, none of the actions is a but-for cause. However, if Suzy hadn't thrown, then *shattered* would have happened later. Therefore, *throwsuzy* is a cause according to the temporal-fragility definition of causality called *temporal_empty* (why it is called *empty* will be explained later):
 ```
-  ./causality ./examples/suzybilly1.pl throwsuzy:throwbilly shattered temporal_empty
+./causality ./examples/suzybilly1.pl throwsuzy:throwbilly shattered temporal_empty
 ```
 
 The output is a singleton list of pairs of actions and justifications <code>[(throwsuzy,empty:throwbilly)]</code>. Particularly, this tells us that *throwsuzy* is a cause. And it gives additional information: This judgment is true, because if *throwsuzy* were substituted by the empty action, the plan *empty:throwbilly* would be performed instead, and then *shattered* would become true later (viz., due to the later action *throwbilly*).
