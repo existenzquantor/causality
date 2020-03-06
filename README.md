@@ -10,7 +10,7 @@ Then clone or download this github repository. Make sure the file _causality_ is
 
 ### Example: Suzy and Billy
 
-#### Causes
+#### Domain Description
 
 *Suzy throws a rock at the bottle. Billy throws his rock only if Suzy's does not hit. Suzy hits the bottle. The bottle shatters.* The narrative can be represented by the program <code>throwsuzy:throwbilly</code> under the domain description shown below:
 
@@ -23,6 +23,8 @@ effect(throwbilly, [not(shattered)], [shattered]).
 ```
 
 This domain description is written in the file *./examples/suzybilly.pl*. States are represented as lists of literals. The first line means that initially, the bottle is not shattered. The goal is to make *shattered* true. The effect of throwing the rock at the bottle is that the bottle shatters given that it is not yet shattered. This is represented by the *effect* predictates: First argument is the action name, second argument a set of preconditions that must hold for the action to take effect, and the effect is the list of literals at the third argument. For an action, several such *effect* assertions may be present. This way, the effects under various conditions can be modeled.
+
+#### Causes
 
 The causal reasoner can be queried to answer what  caused *shattered*, or why *throwsuzy* was performed to begin with.
 
