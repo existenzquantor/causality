@@ -1,5 +1,4 @@
 #!/usr/bin/env swipl
-
 :- initialization(main, main).
 
 % Example call: ./causality "./examples/ex_butfor.pl" "a:a" "a" "not(p)" "but_for"
@@ -7,21 +6,19 @@ main(Argv) :-
         nth0(0, Argv, Domain),
         nth0(1, Argv, ProgramAtom),
         term_to_atom(Program, ProgramAtom),
-        nth0(2, Argv, ActionAtom),
-        term_to_atom(Action, ActionAtom),
-        nth0(3, Argv, FactAtom),
-        term_to_atom(Fact, FactAtom),
-        nth0(4, Argv, Definition),
+        nth0(2, Argv, QueryAtom),
+        term_to_atom(Query, QueryAtom),
+        nth0(3, Argv, Definition),
         consult("./core/causality.pl"),
-        consult(Domain), 
+        consult(Domain),
         (Definition == but_for -> 
-                (but_for_cause(Program, Action, Fact, _) -> writeln("TRUE");writeln("FALSE"))
+                (setof((Action, Witness), but_for_cause(Program, Action, Query, Witness), Actions) -> writeln(Actions);writeln("FALSE"))
         ;
         (Definition == temporal_empty -> 
-                (cause_empty_temporal(Program, Action, Fact, _) -> writeln("TRUE");writeln("FALSE"))
+                (setof((Action, Witness), cause_empty_temporal(Program, Action, Query, Witness), Actions) -> writeln(Actions);writeln("FALSE"))
         )
         ;
         (Definition == reason_but_for ->
-                (findall(Reason, reason_but_for_cause(Reason, Action, Program, _), Reasons) -> writeln(Reasons);writeln("FALSE"))
+                (setof((Reason, Witness), reason_but_for_cause(Reason, Query, Program, Witness), Reasons) -> writeln(Reasons);writeln("FALSE"))
         )
         ).

@@ -15,6 +15,7 @@ finally(Program, Fact) :-
 is_goal(Fact) :-
     goal(G),
     member(Fact, G).
+action(A) :- effect(A, _, _).
 
 /* Helper Predicates for Temporal Reasoning */
 holds_since(Program, Fact, 0) :- 
@@ -39,33 +40,35 @@ max_holds_since(Program, Fact, MaxCur, Max) :-
 contrast_program1(A1 : A2, CP1 : CP2) :- 
     contrast_program1(A1, CP1), 
     contrast_program1(A2, CP2).
-contrast_program1(A, A) :- atom(A).
-contrast_program1(A, empty) :- atom(A).
+contrast_program1(A, A) :- action(A).
+contrast_program1(A, empty) :- action(A).
 
 /* Compute programs with action-specific substitution by empty actions */
 contrast_program1(A1 : A2, CP1 : CP2, Act) :- 
+    action(Act),
     contrast_program1(A1, CP1, Act), 
     contrast_program1(A2, CP2, Act).
-contrast_program1(A, A, _) :- atom(A).
+contrast_program1(A, A, _) :- action(A).
 contrast_program1(A, empty, Act) :- 
-    atom(A), 
+    action(Act), 
     A == Act.
 
 /* Compute programs with contrast actions */
 contrast_program2(A1 : A2, CP1 : CP2) :- 
     contrast_program2(A1, CP1), 
     contrast_program2(A2, CP2).
-contrast_program2(A, A) :- atom(A).
+contrast_program2(A, A) :- action(A).
 contrast_program2(A, C) :-
-    atom(A), 
+    action(A), 
     contrast(A, CL), 
     member(C, CL).
 
 /* Compute programs with with action-specific substitution contrast actions */
-contrast_program2(A1 : A2, CP1 : CP2, Act) :- 
+contrast_program2(A1 : A2, CP1 : CP2, Act) :-
+    action(Act),
     contrast_program2(A1, CP1, Act), 
     contrast_program2(A2, CP2, Act).
-contrast_program2(A, A, _) :- atom(A).
+contrast_program2(A, A, _) :- action(A).
 contrast_program2(A, C, Act) :- 
     A == Act,
     contrast(A, CL), 
@@ -75,18 +78,19 @@ contrast_program2(A, C, Act) :-
 contrast_program3(A1 : A2, CP1 : CP2) :- 
     contrast_program3(A1, CP1), 
     contrast_program3(A2, CP2).
-contrast_program3(A, A) :- atom(A).
-contrast_program3(A, empty) :- atom(A).
+contrast_program3(A, A) :- action(A).
+contrast_program3(A, empty) :- action(A).
 contrast_program3(A, C) :- 
-    atom(A), 
+    action(A), 
     contrast(A, CL), 
     member(C, CL).
 
 /* Compute programs with action-specific substitution by empty or contrast actions */
 contrast_program3(A1 : A2, CP1 : CP2, Act) :- 
+    action(Act),
     contrast_program3(A1, CP1, Act), 
     contrast_program3(A2, CP2, Act).
-contrast_program3(A, A, _) :- atom(A).
+contrast_program3(A, A, _) :- action(A).
 contrast_program3(A, empty, Act) :- 
     A == Act.
 contrast_program3(A, C, Act) :- 
