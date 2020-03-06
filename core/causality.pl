@@ -1,3 +1,8 @@
+:- dynamic
+    effect/3,
+    init/1,
+    goal/1,
+    contrast/2.
 :- [interpreter].
 :- [programs].
 
