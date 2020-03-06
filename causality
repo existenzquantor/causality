@@ -11,13 +11,13 @@ main(Argv) :-
         consult("./core/causality.pl"),
         consult(Domain),
         (Definition == but_for -> 
-                (setof((Action, Witness), but_for_cause(Program, Action, Query, Witness), Actions) -> writeln(Actions);writeln("FALSE"))
+                (findall((Action, Witness), but_for_cause(Program, Action, Query, Witness), Actions) -> writeln(Actions);writeln("FALSE"))
         ;
         (Definition == temporal_empty -> 
-                (setof((Action, Witness), cause_empty_temporal(Program, Action, Query, Witness), Actions) -> writeln(Actions);writeln("FALSE"))
+                (findall((Action, Witness), cause_empty_temporal(Program, Action, Query, Witness), Actions) -> writeln(Actions);writeln("FALSE"))
         )
         ;
         (Definition == reason_but_for ->
-                (setof((Reason, Witness), reason_but_for_cause(Reason, Query, Program, Witness), Reasons) -> writeln(Reasons);writeln("FALSE"))
+                (findall((Reason, Witness), reason_but_for_cause(Reason, Query, Program, Witness), Reasons) -> writeln(Reasons);writeln("FALSE"))
         )
         ).
