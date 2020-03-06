@@ -22,7 +22,9 @@ effect(throwsuzy, [not(shattered)], [shattered]).
 effect(throwbilly, [not(shattered)], [shattered]).
 ```
 
-This domain description is written in the file *./examples/suzybilly.pl*. The causal reasoner can be queried to answer what  caused *shattered*, or why *throwsuzy* was performed to begin with.
+This domain description is written in the file *./examples/suzybilly.pl*. States are represented as lists of literals. The first line means that initially, the bottle is not shattered. The goal is to make *shattered* true. The effect of throwing the rock at the bottle is that the bottle shatters given that it is not yet shattered. This is represented by the *effect* predictates: First argument is the action name, second argument a set of preconditions that must hold for the action to take effect, and the effect is the list of literals at the third argument. For an action, several such *effect* assertions may be present. This way, the effects under various conditions can be modeled.
+
+The causal reasoner can be queried to answer what  caused *shattered*, or why *throwsuzy* was performed to begin with.
 
 First, ask what caused the shattering under the but-for definition of causality:
 ```
