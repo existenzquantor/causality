@@ -38,7 +38,7 @@ The answer is the empty set: Leaving out *throwsuzy* would still result in *shat
 ./causality ./examples/suzybilly1.pl throwsuzy:throwbilly shattered temporal_empty
 ```
 
-The output is a singleton list of pairs of actions and justifications <code>[(throwsuzy,empty:throwbilly)]</code>. Particularly, this tells us that *throwsuzy* is a cause. And it gives additional information: This judgment is true, because if *throwsuzy* were substituted by the empty action, the plan *empty:throwbilly* would be performed instead, and then *shattered* would become true later (viz., due to the later action *throwbilly*).
+The output is a singleton list of pairs of actions and justifications <code>[(throwsuzy,empty:throwbilly)]</code>. Particularly, this tells us that *throwsuzy* is a cause. And it gives additional information: This judgment is true, because if *throwsuzy* was substituted by the empty action, the plan *empty:throwbilly* would be performed instead, and then *shattered* would become true later (viz., due to the later action *throwbilly*).
 
 
 #### Reasons
