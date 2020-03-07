@@ -55,3 +55,6 @@ The answer is <code>[(shattered,empty:throwbilly)]</code>. This means that the r
 
 ... we get the empty set, viz., *throwbilly* was performed for no reason.
 
+### Example: Service Robot
+
+tbd
