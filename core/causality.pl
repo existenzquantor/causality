@@ -171,3 +171,6 @@ reason_empty_temporal(Fact, Action, Program, CP) :-
 reason_nonempty_contrast(Fact, Action, Program, CP) :-
     is_goal(Fact),
     cause_nonempty_contrast(Program, Action, Fact, CP).
+reason_nonempty_temporal(Fact, Action, Program, CP) :-
+    is_goal(Fact),
+    cause_nonempty_temporal(Program, Action, Fact, CP).

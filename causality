@@ -17,11 +17,19 @@ main(Argv) :-
                 (findall((Action, Witness), cause_empty_temporal(Program, Action, Query, Witness), Actions) -> writeln(Actions);writeln("[]"))
         )
         ;
+        (Definition == temporal_nonempty -> 
+                (findall((Action, Witness), cause_nonempty_temporal(Program, Action, Query, Witness), Actions) -> writeln(Actions);writeln("[]"))
+        )
+        ;
         (Definition == reason_but_for ->
                 (findall((Reason, Witness), reason_but_for_cause(Reason, Query, Program, Witness), Reasons) -> writeln(Reasons);writeln("[]"))
         )
         ;
         (Definition == reason_temporal_empty ->
                 (findall((Reason, Witness), reason_empty_temporal(Reason, Query, Program, Witness), Reasons) -> writeln(Reasons);writeln("[]"))
+        )
+        ;
+        (Definition == reason_temporal_nonempty ->
+                (findall((Reason, Witness), reason_nonempty_temporal(Reason, Query, Program, Witness), Reasons) -> writeln(Reasons);writeln("[]"))
         )
         ).
