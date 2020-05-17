@@ -15,6 +15,13 @@ finally(Program, Fact) :-
 is_goal(Fact) :-
     goal(G),
     member(Fact, G).
+is_fact(Fact) :- 
+    init(I),
+    member(Fact, I).
+is_fact(Fact) :- 
+    init(I),
+    negate_all(I, IN)
+    member(Fact, IN).
 action(A) :- effect(A, _, _).
 
 /* Helper Predicates for Temporal Reasoning */
@@ -174,3 +181,17 @@ reason_nonempty_contrast(Fact, Action, Program, CP) :-
 reason_nonempty_temporal(Fact, Action, Program, CP) :-
     is_goal(Fact),
     cause_nonempty_temporal(Program, Action, Fact, CP).
+
+/* Weaker Reasons, viz., without a goal */
+reason_but_for_cause_nogoal(Fact, Action, Program, CP) :-
+    is_fact(Fact),
+    but_for_cause(Program, Action, Fact, CP).
+reason_empty_temporal_nogoal(Fact, Action, Program, CP) :-
+    is_fact(Fact),
+    cause_empty_temporal(Program, Action, Fact, CP).
+reason_nonempty_contrast_nogoal(Fact, Action, Program, CP) :-
+    is_fact(Fact),
+    cause_nonempty_contrast(Program, Action, Fact, CP).
+reason_nonempty_temporal_nogoal(Fact, Action, Program, CP) :-
+    is_fact(Fact),
+    cause_nonempty_temporal_nogoal(Program, Action, Fact, CP).
