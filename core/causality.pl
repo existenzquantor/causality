@@ -20,7 +20,7 @@ is_fact(Fact) :-
     member(Fact, I).
 is_fact(Fact) :- 
     init(I),
-    negate_all(I, IN)
+    negate_all(I, IN),
     member(Fact, IN).
 action(A) :- effect(A, _, _).
 
