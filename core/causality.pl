@@ -121,9 +121,6 @@ cause_empty_contrast(Program, Fact, CP) :-
 cause_nonempty_contrast(Program, Action, Fact, CP) :-
     contrast_program2(Program, CP, Action),
     cause_contrast(Program, CP, Fact).
-cause_nonempty_contrast(Program, Action, Fact, CP) :-
-    contrast_program2(Program, CP, Action),
-    cause_contrast(Program, CP, Fact).
 cause_nonempty_contrast(Program, Fact, CP) :-
     contrast_program2(Program, CP),
     cause_contrast(Program, CP, Fact).
