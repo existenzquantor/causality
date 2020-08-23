@@ -111,6 +111,10 @@ effect(leaveBalcony, [locBalcony], [not(locBalcony), locHall]).
 
 ### Example: Stealing Cake
 
+Suzy steals a cake. She eats the cake. The cake causes pain. 
+
+#### Does Suzy have pain, because she *stole* the cake? - The answer is no.
+
 ```prolog
 % File: ex_cake_con1.pl
 effect(steal_cake, [], [have_cake]).
@@ -128,6 +132,9 @@ init([not(have_cake), not(have_banana), not(pain)]).
 ```
 
 <code>[]</code>
+
+
+#### Does Suzy have pain, because she stole *the cake*? - The answer is yes. 
 
 ```prolog
 % File: ex_cake_con2.pl
