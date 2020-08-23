@@ -58,7 +58,52 @@ The answer is <code>[(shattered,empty:throwbilly)]</code>. This means that the r
 
 ... we get the empty set, viz., *throwbilly* was performed for no reason.
 
-### Example: Service Robot
+### Example: Stealing Cake
+
+Suzy steals a cake. She eats the cake. The cake causes pain. 
+
+#### Does Suzy have pain, because she *stole* the cake? - The answer is no.
+
+```prolog
+% File: ex_cake_con1.pl
+effect(steal_cake, [], [have_cake]).
+effect(buy_cake, [], [have_cake]).
+effect(steal_banana, [], [have_banana]).
+effect(eat, [have_cake], [pain]).
+
+contrast(steal_cake, [buy_cake]).
+
+init([not(have_cake), not(have_banana), not(pain)]).
+```
+
+```
+./causality ./examples/ex_cake_con1.pl steal_cake:eat pain temporal_nonempty
+```
+
+<code>[]</code>
+
+
+#### Does Suzy have pain, because she stole *the cake*? - The answer is yes. 
+
+```prolog
+% File: ex_cake_con2.pl
+effect(steal_cake, [], [have_cake]).
+effect(buy_cake, [], [have_cake]).
+effect(steal_banana, [], [have_banana]).
+effect(eat, [have_cake], [pain]).
+
+contrast(steal_cake, [steal_banana]).
+
+init([not(have_cake), not(have_banana), not(pain)]).
+```
+
+```
+./causality ./examples/ex_cake_con2.pl steal_cake:eat pain temporal_nonempty
+```
+
+<code>[(steal_cake,steal_banana:eat)]</code>
+
+### A more complex Example: Service Robot
 
 ```prolog
 init([
@@ -108,48 +153,3 @@ effect(leaveBalcony, [locBalcony], [not(locBalcony), locHall]).
 ```
 
 <code>[(coffMrsBrown,brew:brew:brew:leaveKitchen:enterDining:serve:serve:leaveDining:empty:serve)]</code>
-
-### Example: Stealing Cake
-
-Suzy steals a cake. She eats the cake. The cake causes pain. 
-
-#### Does Suzy have pain, because she *stole* the cake? - The answer is no.
-
-```prolog
-% File: ex_cake_con1.pl
-effect(steal_cake, [], [have_cake]).
-effect(buy_cake, [], [have_cake]).
-effect(steal_banana, [], [have_banana]).
-effect(eat, [have_cake], [pain]).
-
-contrast(steal_cake, [buy_cake]).
-
-init([not(have_cake), not(have_banana), not(pain)]).
-```
-
-```
-./causality ./examples/ex_cake_con1.pl steal_cake:eat pain temporal_nonempty
-```
-
-<code>[]</code>
-
-
-#### Does Suzy have pain, because she stole *the cake*? - The answer is yes. 
-
-```prolog
-% File: ex_cake_con2.pl
-effect(steal_cake, [], [have_cake]).
-effect(buy_cake, [], [have_cake]).
-effect(steal_banana, [], [have_banana]).
-effect(eat, [have_cake], [pain]).
-
-contrast(steal_cake, [steal_banana]).
-
-init([not(have_cake), not(have_banana), not(pain)]).
-```
-
-```
-./causality ./examples/ex_cake_con2.pl steal_cake:eat pain temporal_nonempty
-```
-
-<code>[(steal_cake,steal_banana:eat)]</code>
