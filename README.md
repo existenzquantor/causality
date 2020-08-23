@@ -28,8 +28,8 @@ This domain description is written in the file *./examples/suzybilly.pl*. States
 
 The causal reasoner can be queried to answer two types of questions: 
 
-1. What caused *Literal*? E.g., what caused *shattered*?
-1. Why was *Action* performed? E.g., why was *throwsuzy* performed?
+1. Why does *Literal* finally hold? E.g., why does *shattered* finally hold? The answer will be in terms of the actions that caused *Literal*.
+1. Why was *Action* performed? E.g., why was *throwsuzy* performed? The answer will be in terms of the caused goal literals (reasons) of *Action*.
 
 First, ask what caused the shattering under the but-for definition of causality:
 ```
