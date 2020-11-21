@@ -2,12 +2,16 @@
 :- [logic].
 
 /* Execute Program */
-do(A1 : A2, S, Snext) :- 
-    do(A1, S, S2), 
-    do(A2, S2, Snext).
-do(A, S, Snext) :- 
+do(A, S, Snext) :-
+    do(A, S, Snext, 0).
+do(A1 : A2, S, Snext, T) :- 
+    do(A1, S, S2, T), 
+    T2 is T + 1,
+    do(A2, S2, Snext, T2).
+do(A, S, Snextnext, T) :- 
     atom(A), 
-    apply(A, S, Snext).
+    apply(A, S, Snext),
+    apply(T, Snext, Snextnext).
 
 /* Apply Action to State */
 apply(A, S, Snext) :- 
