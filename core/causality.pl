@@ -191,4 +191,4 @@ reason_nonempty_contrast_nogoal(Fact, Action, Program, CP) :-
     cause_nonempty_contrast(Program, Action, Fact, CP).
 reason_nonempty_temporal_nogoal(Fact, Action, Program, CP) :-
     is_fact(Fact),
-    cause_nonempty_temporal_nogoal(Program, Action, Fact, CP).
+    cause_nonempty_temporal(Program, Action, Fact, CP).
