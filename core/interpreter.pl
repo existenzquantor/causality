@@ -1,5 +1,5 @@
-/* Interpreter */
-:- [logic].
+:- module(interpreter, [do/3, finally/2, is_goal/1, is_fact/1, action/1]).
+:- use_module(logic, [negate_all/2, satisfied/2]).
 
 /* Execute Program */
 do(A, S, Snext) :-
@@ -21,3 +21,21 @@ apply(A, S, Snext) :-
     negate_all(L3, L4),
     subtract(S, L4, S2),
     union(S2, L3, Snext).
+
+/* Check if Fact holds in Program's final state */
+finally(Program, Fact) :-
+    init(S0), 
+    do(Program, S0, S), 
+    satisfied([Fact], S).
+/* Check if Fact is a Goal */
+is_goal(Fact) :-
+    goal(G),
+    member(Fact, G).
+is_fact(Fact) :- 
+    init(I),
+    member(Fact, I).
+is_fact(Fact) :- 
+    init(I),
+    negate_all(I, IN),
+    member(Fact, IN).
+action(A) :- effect(A, _, _).

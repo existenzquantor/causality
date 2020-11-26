@@ -1,3 +1,4 @@
+:- module(programs, [prefix_n_times/3, program_length/2]).
 
 list_to_program(L, P) :- 
     reverse(L, Lr),
@@ -37,7 +38,3 @@ program_length(A : B, N) :-
     program_length(A, N1),
     program_length(B, N2),
     N is N1 + N2.
-
-%start :- prefix_n_times(a:b:c, 3, L), write(L).
-%start :- list_to_program([a, b, c, d], L), write(L).
-%start :- program_to_list(a:b:c:d, L), write(L).

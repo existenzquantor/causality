@@ -9,8 +9,8 @@ main(Argv) :-
         term_to_atom(Query, QueryAtom),
         nth0(3, Argv, Definition),
         (getenv('CAUSALITY', CausalityPath) -> string_concat(CausalityPath, "/core/causality.pl", CP); string_concat(".", "/core/causality.pl", CP)),
-        consult(CP),
-        consult(Domain),
+        use_module(CP),
+        ensure_loaded(Domain),
         (Definition == but_for -> 
                 (findall((Action, Witness), but_for_cause(Program, Action, Query, Witness), Actions) -> list_to_set(Actions, AS), writeln(AS);writeln("[]"))
         ;

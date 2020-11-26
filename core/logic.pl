@@ -1,3 +1,5 @@
+:- module(logic, [satisfied/2, negate_all/2, negate/2]).
+
 /* Check if facts F are satisfied in State S */
 satisfied(F, S) :- 
     is_list(F),

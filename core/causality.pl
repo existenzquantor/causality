@@ -1,28 +1,15 @@
-:- dynamic
-    effect/3,
-    init/1,
-    goal/1,
-    contrast/2.
-:- [interpreter].
-:- [programs].
-
-/* Check if Fact holds in Program's final state */
-finally(Program, Fact) :-
-    init(S0), 
-    do(Program, S0, S), 
-    satisfied([Fact], S).
-/* Check if Fact is a Goal */
-is_goal(Fact) :-
-    goal(G),
-    member(Fact, G).
-is_fact(Fact) :- 
-    init(I),
-    member(Fact, I).
-is_fact(Fact) :- 
-    init(I),
-    negate_all(I, IN),
-    member(Fact, IN).
-action(A) :- effect(A, _, _).
+:- module(causality, [but_for_cause/4, 
+                        cause_empty_temporal/4,
+                        cause_nonempty_temporal/4,
+                        reason_but_for_cause/4,
+                        reason_empty_temporal/4,
+                        reason_nonempty_temporal/4,
+                        reason_but_for_cause_nogoal/4,
+                        reason_empty_temporal_nogoal/4,
+                        reason_nonempty_temporal_nogoal/4]).
+:- use_module(interpreter, [finally/2, action/1, is_fact/1, is_goal/1]).
+:- use_module(programs, [prefix_n_times/3, program_length/2]).
+:- use_module(logic, [negate/2]).
 
 /* Helper Predicates for Temporal Reasoning */
 holds_since(Program, Fact, 0) :- 
@@ -163,7 +150,6 @@ cause_temporal(Program, ContrastProgram, Fact) :-
     maximum_holds_since(Program, Fact, ProgMax), 
     maximum_holds_since(ContrastProgram, Fact, CProgMax),
     CProgMax < ProgMax. % Fact stabilizes later
-
 
 /* From Causes to Reasons */
 reason_but_for_cause(Fact, Action, Program, CP) :-

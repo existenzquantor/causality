@@ -1,5 +1,3 @@
-:- ["../core/causality"].
-
 init([not(shattered)]).
 goal([shattered]).
 
