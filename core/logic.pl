@@ -3,10 +3,10 @@
 /* Check if facts F are satisfied in State S */
 satisfied(F, S) :- 
     is_list(F),
-    subset(F, S).
+    \+ (member(X, F), \+ member(X, S)).
 satisfied(F, S) :- 
     \+ is_list(F),
-    subset([F], S).
+    member(F, S).
 
 /* Negating Facts and Lists of Facts */
 negate(F, Fneg) :- 

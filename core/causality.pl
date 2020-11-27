@@ -1,4 +1,7 @@
-:- module(causality, [but_for_cause/4, 
+:- module(causality, [  but_for_cause/3, 
+                        cause_empty_temporal/3,
+                        cause_nonempty_temporal/3,
+                        but_for_cause/4, 
                         cause_empty_temporal/4,
                         cause_nonempty_temporal/4,
                         reason_but_for_cause/4,

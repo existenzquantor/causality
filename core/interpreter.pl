@@ -26,7 +26,7 @@ apply(A, S, Snext) :-
 finally(Program, Fact) :-
     init(S0), 
     do(Program, S0, S), 
-    satisfied([Fact], S).
+    member(Fact, S).
 /* Check if Fact is a Goal */
 is_goal(Fact) :-
     goal(G),
