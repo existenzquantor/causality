@@ -1,4 +1,4 @@
-:- module(programs, [prefix_n_times/3, program_length/2]).
+- module(programs, [prefix_n_times/3, program_length/2, program_to_list/2]).
 
 list_to_program(L, P) :- 
     reverse(L, Lr),
