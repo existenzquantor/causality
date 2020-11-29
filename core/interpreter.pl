@@ -1,5 +1,33 @@
-:- module(interpreter, [do/3, do/4, finally/2, finally/3, is_goal/1, is_fact/1, action/1]).
+:- module(interpreter, [do/3, 
+                        do/4, 
+                        finally/2, 
+                        finally/3, 
+                        is_goal/1, 
+                        is_fact/1, 
+                        action/1,
+                        generate_plan/4]).
 :- use_module(logic, [negate_all/2, satisfied/2]).
+:- use_module(programs, [list_to_program/2]).
+
+/* Planning */
+generate_program(Length, P) :-
+    generate_program(Length, [], Pr),
+    list_to_program(Pr, P).
+generate_program(0, P, P).
+generate_program(Length, T, P) :-
+    Length > 0,
+    L2 is Length - 1,
+    effect(A, _, _),
+    generate_program(L2, [A | T], P).
+generate_program(Length, T, P) :-
+    Length > 0,
+    L2 is Length - 1,
+    generate_program(L2, [empty | T], P).
+
+generate_plan(Length, Init, Goal, P) :-
+    generate_program(Length, P),
+    do(P, Init, Fin),
+    subset(Goal, Fin).
 
 /* Execute Program */
 do(A, S, Snext) :-
@@ -9,7 +37,7 @@ do(A1 : A2, S, Snext, T) :-
     T2 is T + 1,
     do(A2, S2, Snext, T2).
 do(A, S, Snextnext, T) :- 
-    atom(A), 
+    action(A),
     apply(A, S, Snext),
     apply(T, Snext, Snextnext).
 
@@ -21,7 +49,7 @@ do(A1 : A2, S, Snext, T, Instrumental) :-
     T2 is T + 1,
     do(A2, S2, Snext, T2, Instrumental).
 do(A, S, Snextnext, T, Instrumental) :- 
-    atom(A), 
+    action(A), 
     apply(A, S, Snext, Instrumental),
     apply(T, Snext, Snextnext, Instrumental).
 
@@ -68,4 +96,6 @@ is_fact(Fact) :-
     init(I),
     negate_all(I, IN),
     member(Fact, IN).
+
+action(empty).
 action(A) :- effect(A, _, _).
