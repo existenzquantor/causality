@@ -51,7 +51,7 @@ do(A1 : A2, S, Snext, T, Instrumental) :-
 do(A, S, Snextnext, T, Instrumental) :- 
     action(A), 
     apply(A, S, Snext, Instrumental),
-    apply(T, Snext, Snextnext, Instrumental).
+    (apply(T, Snext, Snextnext, Instrumental) -> true; true).
 
 /* Apply Action to State */
 apply(A, S, Snext) :- 
