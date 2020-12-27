@@ -5,7 +5,7 @@
                         is_goal/1, 
                         is_fact/1, 
                         action/1,
-                        generate_plan/4]).
+                        generate_plan/3]).
 :- use_module(logic, [negate_all/2, satisfied/2]).
 :- use_module(programs, [list_to_program/2]).
 
@@ -18,15 +18,16 @@ generate_program(Length, T, P) :-
     Length > 0,
     L2 is Length - 1,
     effect(A, _, _),
+    \+number(A),
     generate_program(L2, [A | T], P).
 generate_program(Length, T, P) :-
     Length > 0,
     L2 is Length - 1,
     generate_program(L2, [empty | T], P).
 
-generate_plan(Length, Init, Goal, P) :-
+generate_plan(Length, Goal, P) :-
     generate_program(Length, P),
-    do(P, Init, Fin),
+    findall(X, finally(P, X), Fin),
     subset(Goal, Fin).
 
 /* Execute Program */
