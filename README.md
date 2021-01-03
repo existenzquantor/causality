@@ -56,13 +56,15 @@ The answer is <code>[(shattered,empty:throwbilly)]</code>. This means that the r
 ./causality ./examples/suzybilly1.pl throwsuzy:throwbilly throwbilly reason_temporal_empty
 ```
 
-... we get the empty set, viz., *throwbilly* was performed for no reason.
+... we get the empty set, viz., *throwbilly* was performed for no reason. 
 
 ### Example: Stealing Cake
 
-Suzy steals a cake. She eats the cake. The cake causes pain. 
+Causality depends on reasoning about an appropriate contrast. In the standard examples, the contrast is just the empty action. That is, an action causes some fact, if had the action not been performed, then the fact would not have obtained (or would have obtained later). The causality tool also allows for specifying contrasts different from the empty action. This way, more complex situations can be captured, such as the following: *Suzy steals a cake. She eats the cake. The cake causes pain.*
 
 #### Does Suzy have pain, because she *stole* the cake? - The answer is no.
+
+Here, the question is if stealing caused the pain (rather than the cake). Hence, we set as contrast the action of buying the cake (rather than stealing it). Of course, Suzy's pain will still obtain. Consequently, it is not the stealing that caused the pain.
 
 ```prolog
 % File: ex_cake_con1.pl
@@ -84,6 +86,8 @@ init([not(have_cake), not(have_banana), not(pain)]).
 
 
 #### Does Suzy have pain, because she stole *the cake*? - The answer is yes. 
+
+To answer this question, the contrast is set to stealing something else, viz., a banana. Now, if Suzy had not stolen the cake but the banana, then she would have not experienced pain. Consequently, it was the cake (rather than the stealing) that caused Suzy's pain.
 
 ```prolog
 % File: ex_cake_con2.pl
